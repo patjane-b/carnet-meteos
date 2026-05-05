@@ -10,39 +10,35 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #f8f7f4;
       min-height: 100vh;
-      padding: 1rem;
+      padding: 12px;
     }
     .carnet {
-      max-width: 100%;
+      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-      padding: 1.25rem 1rem;
+      padding: 1.5rem 1.25rem;
     }
-    @media (min-width: 600px) {
-      body { padding: 2rem 1.5rem; }
-      .carnet { max-width: 720px; padding: 2rem 1.5rem; border-radius: 20px; }
-    }
-    h1 { font-size: 18px; font-weight: 600; color: #2c2c2a; margin-bottom: 0.15rem; }
-    @media (min-width: 600px) { h1 { font-size: 20px; } }
-    .subtitle { font-size: 12px; color: #aaa; margin-bottom: 1.25rem; }
+    h1 { font-size: 22px; font-weight: 700; color: #2c2c2a; margin-bottom: 0.2rem; }
+    .subtitle { font-size: 14px; color: #999; margin-bottom: 1.5rem; }
     .week-nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
       gap: 8px;
     }
-    .week-label { font-size: 12px; font-weight: 500; color: #2c2c2a; text-align: center; flex: 1; }
-    @media (min-width: 480px) { .week-label { font-size: 14px; } }
+    .week-label { font-size: 15px; font-weight: 600; color: #2c2c2a; text-align: center; flex: 1; }
     .nav-btn {
       background: none;
-      border: 1px solid #d3d1c7;
-      border-radius: 8px;
-      padding: 6px 10px;
-      font-size: 12px;
-      color: #666;
+      border: 1.5px solid #d3d1c7;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
       cursor: pointer;
       white-space: nowrap;
       flex-shrink: 0;
@@ -51,51 +47,69 @@
     .days-grid {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 4px;
-      margin-bottom: 1.25rem;
+      gap: 8px;
+      margin-bottom: 1.5rem;
     }
-    @media (min-width: 480px) { .days-grid { gap: 6px; } }
-    .day-col { display: flex; flex-direction: column; gap: 4px; }
+    .day-col { display: flex; flex-direction: column; gap: 6px; }
     .day-header {
-      font-size: 9px;
-      font-weight: 600;
-      color: #aaa;
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
       text-align: center;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      padding-bottom: 2px;
+      letter-spacing: 0.05em;
+      padding-bottom: 4px;
     }
-    @media (min-width: 480px) { .day-header { font-size: 10px; } }
     .day-header.today { color: #1D9E75; }
     .section-card {
-      border-radius: 6px;
-      border: 1px solid #e8e6e0;
+      border-radius: 10px;
+      border: 1.5px solid #e8e6e0;
       background: #fff;
-      padding: 4px 2px;
+      padding: 8px 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: border-color 0.15s;
-      min-height: 44px;
-      gap: 2px;
+      transition: border-color 0.15s, transform 0.1s;
+      min-height: 70px;
+      gap: 4px;
     }
-    @media (min-width: 480px) {
-      .section-card { min-height: 54px; padding: 5px 4px; border-radius: 8px; }
+    .section-card:hover { border-color: #999; transform: scale(1.02); }
+    .section-label {
+      font-size: 11px;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.4;
+      font-weight: 500;
     }
-    .section-card:hover { border-color: #b4b2a9; }
-    .section-label { font-size: 7px; color: #bbb; text-align: center; line-height: 1.3; }
-    @media (min-width: 480px) { .section-label { font-size: 8px; } }
-    .meteo-icon { font-size: 16px; line-height: 1; }
-    @media (min-width: 480px) { .meteo-icon { font-size: 20px; } }
-    .mot-text { font-size: 7px; color: #534AB7; text-align: center; line-height: 1.3; font-weight: 500; word-break: break-word; padding: 0 2px; }
-    @media (min-width: 480px) { .mot-text { font-size: 8px; } }
-    .victoire-text { font-size: 7px; color: #0F6E56; text-align: center; line-height: 1.3; font-weight: 500; word-break: break-word; padding: 0 2px; }
-    @media (min-width: 480px) { .victoire-text { font-size: 8px; } }
-    .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
-    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #888; }
-    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .meteo-icon { font-size: 26px; line-height: 1; }
+    .mot-text {
+      font-size: 11px;
+      color: #3C3489;
+      text-align: center;
+      line-height: 1.4;
+      font-weight: 600;
+      word-break: break-word;
+      padding: 0 4px;
+    }
+    .victoire-text {
+      font-size: 11px;
+      color: #085041;
+      text-align: center;
+      line-height: 1.4;
+      font-weight: 600;
+      word-break: break-word;
+      padding: 0 4px;
+    }
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #666; font-weight: 500; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
     .modal-overlay {
       display: none;
       position: fixed;
@@ -110,30 +124,77 @@
     .modal {
       background: #fff;
       border-radius: 20px 20px 0 0;
-      padding: 1.25rem 1.25rem 2.5rem;
+      padding: 1.25rem 1.5rem 2.5rem;
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
     }
-    @media (min-width: 500px) { .modal { border-radius: 16px; padding: 1.5rem; } }
-    .modal-handle { width: 40px; height: 4px; background: #e0ddd6; border-radius: 2px; margin: 0 auto 1rem; }
+    @media (min-width: 500px) { .modal { border-radius: 16px; padding: 1.75rem; } }
+    .modal-handle { width: 44px; height: 5px; background: #e0ddd6; border-radius: 3px; margin: 0 auto 1.25rem; }
     @media (min-width: 500px) { .modal-handle { display: none; } }
-    .modal-title { font-size: 16px; font-weight: 600; color: #2c2c2a; margin-bottom: 1.25rem; }
-    .modal-section { margin-bottom: 1rem; }
-    .modal-section label { font-size: 12px; color: #666; display: block; margin-bottom: 6px; font-weight: 500; }
-    .meteo-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .meteo-opt { font-size: 28px; cursor: pointer; padding: 6px; border-radius: 10px; border: 2px solid transparent; transition: border-color 0.1s, background 0.1s; line-height: 1; }
+    .modal-title { font-size: 18px; font-weight: 700; color: #2c2c2a; margin-bottom: 1.25rem; }
+    .modal-section { margin-bottom: 1.1rem; }
+    .modal-section label { font-size: 13px; color: #555; display: block; margin-bottom: 8px; font-weight: 600; }
+    .meteo-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .meteo-opt {
+      font-size: 32px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 12px;
+      border: 2.5px solid transparent;
+      transition: border-color 0.1s, background 0.1s;
+      line-height: 1;
+    }
     .meteo-opt:hover { border-color: #d3d1c7; }
     .meteo-opt.selected { border-color: #1D9E75; background: #E1F5EE; }
-    .modal input[type=text] { width: 100%; font-size: 15px; border: 1px solid #d3d1c7; border-radius: 8px; padding: 10px 12px; background: #fff; color: #2c2c2a; font-family: inherit; -webkit-appearance: none; }
+    .modal input[type=text] {
+      width: 100%;
+      font-size: 16px;
+      border: 1.5px solid #d3d1c7;
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: #fff;
+      color: #2c2c2a;
+      font-family: inherit;
+      -webkit-appearance: none;
+    }
     .modal input[type=text]:focus { outline: none; border-color: #1D9E75; }
-    .modal-actions { display: flex; gap: 8px; margin-top: 1.25rem; }
-    .btn-save { flex: 1; background: #1D9E75; color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .modal-actions { display: flex; gap: 8px; margin-top: 1.5rem; }
+    .btn-save {
+      flex: 1;
+      background: #1D9E75;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
     .btn-save:hover { background: #0F6E56; }
-    .btn-cancel { background: none; border: 1px solid #d3d1c7; border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #666; cursor: pointer; font-family: inherit; }
+    .btn-cancel {
+      background: none;
+      border: 1.5px solid #d3d1c7;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      color: #666;
+      cursor: pointer;
+      font-family: inherit;
+    }
     .btn-cancel:hover { background: #f1efe8; }
-    .btn-delete { background: none; border: 1px solid #F09595; border-radius: 10px; padding: 12px 14px; font-size: 13px; color: #A32D2D; cursor: pointer; font-family: inherit; }
+    .btn-delete {
+      background: none;
+      border: 1.5px solid #F09595;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #A32D2D;
+      cursor: pointer;
+      font-family: inherit;
+    }
     .btn-delete:hover { background: #FCEBEB; }
-    .footer { text-align: center; font-size: 11px; color: #ccc; margin-top: 1rem; }
+    .footer { text-align: center; font-size: 12px; color: #ccc; margin-top: 1rem; }
   </style>
 </head>
 <body>
@@ -147,9 +208,9 @@
   </div>
   <div class="days-grid" id="daysGrid"></div>
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div>Météo</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#AFA9EC"></div>Mot</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#9FE1CB"></div>Victoire</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div>Météo du matin</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Mot du jour</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5"></div>Petite victoire</div>
   </div>
   <p class="footer">patriciapsy.fr</p>
 </div>
@@ -200,17 +261,25 @@ function getWeekDays(){const monday=getMonday(new Date());monday.setDate(monday.
 function render(){
   const days=getWeekDays();
   const m=days[0],s=days[6];
-  document.getElementById('weekLabel').textContent=m.getDate()+' '+MONTHS[m.getMonth()]+' – '+s.getDate()+' '+MONTHS[s.getMonth()];
+  document.getElementById('weekLabel').textContent=m.getDate()+' '+MONTHS[m.getMonth()]+' – '+s.getDate()+' '+MONTHS[s.getMonth()]+' '+s.getFullYear();
   const grid=document.getElementById('daysGrid');
   grid.innerHTML='';
   days.forEach((d,i)=>{
     const key=dateKey(d);const e=data[key]||{};
     const col=document.createElement('div');col.className='day-col';
     const hdr=document.createElement('div');hdr.className='day-header'+(isToday(d)?' today':'');hdr.textContent=DAYS[i];col.appendChild(hdr);
-    [{bg:e.meteo?'#FFF3DC':'',content:e.meteo?`<span class="meteo-icon">${e.meteo}</span>`:`<span class="section-label">météo</span>`},
-     {bg:e.mot?'#F0EFFE':'',content:e.mot?`<span class="mot-text">${e.mot}</span>`:`<span class="section-label">mot</span>`},
-     {bg:e.victoire?'#E4F8F0':'',content:e.victoire?`<span class="victoire-text">${e.victoire}</span>`:`<span class="section-label">victoire</span>`}
-    ].forEach(c=>{const card=document.createElement('div');card.className='section-card';card.style.background=c.bg;card.innerHTML=c.content;card.onclick=()=>openModal(key,d,i);col.appendChild(card);});
+    [{bg:e.meteo?'#FFF0C8':'',border:e.meteo?'#FAC775':'',content:e.meteo?`<span class="meteo-icon">${e.meteo}</span>`:`<span class="section-label">météo</span>`},
+     {bg:e.mot?'#EEEDFE':'',border:e.mot?'#AFA9EC':'',content:e.mot?`<span class="mot-text">${e.mot}</span>`:`<span class="section-label">mot du jour</span>`},
+     {bg:e.victoire?'#D8F5EC':'',border:e.victoire?'#5DCAA5':'',content:e.victoire?`<span class="victoire-text">${e.victoire}</span>`:`<span class="section-label">victoire</span>`}
+    ].forEach(c=>{
+      const card=document.createElement('div');
+      card.className='section-card';
+      card.style.background=c.bg;
+      if(c.border) card.style.borderColor=c.border;
+      card.innerHTML=c.content;
+      card.onclick=()=>openModal(key,d,i);
+      col.appendChild(card);
+    });
     grid.appendChild(col);
   });
 }
