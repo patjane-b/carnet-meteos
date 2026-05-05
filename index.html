@@ -6,37 +6,43 @@
   <title>Mon carnet de météos</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+    html, body {
+      height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #f8f7f4;
-      min-height: 100vh;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
       padding: 12px;
+      min-height: 100vh;
     }
     .carnet {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-      padding: 1.5rem 1.25rem;
+      padding: 1.25rem 1.25rem 1rem;
+      width: 100%;
     }
-    h1 { font-size: 22px; font-weight: 700; color: #2c2c2a; margin-bottom: 0.2rem; }
-    .subtitle { font-size: 14px; color: #999; margin-bottom: 1.5rem; }
+    h1 { font-size: 24px; font-weight: 700; color: #2c2c2a; margin-bottom: 0.2rem; }
+    .subtitle { font-size: 14px; color: #999; margin-bottom: 1.25rem; }
     .week-nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       gap: 8px;
     }
-    .week-label { font-size: 15px; font-weight: 600; color: #2c2c2a; text-align: center; flex: 1; }
+    .week-label { font-size: 16px; font-weight: 600; color: #2c2c2a; text-align: center; flex: 1; }
     .nav-btn {
       background: none;
       border: 1.5px solid #d3d1c7;
       border-radius: 10px;
-      padding: 8px 16px;
-      font-size: 14px;
+      padding: 10px 18px;
+      font-size: 15px;
       font-weight: 500;
       color: #555;
       cursor: pointer;
@@ -44,72 +50,101 @@
       flex-shrink: 0;
     }
     .nav-btn:hover { background: #f1efe8; }
-    .days-grid {
+
+    /* Ligne de labels fixes */
+    .row-labels {
       display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
+      grid-template-columns: 80px repeat(7, minmax(0,1fr));
       gap: 8px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 6px;
     }
-    .day-col { display: flex; flex-direction: column; gap: 6px; }
+    .row-label-empty { }
     .day-header {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: #888;
       text-align: center;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      padding-bottom: 4px;
+      padding: 4px 0;
     }
     .day-header.today { color: #1D9E75; }
+
+    /* Grille principale : 3 lignes x 7 colonnes avec label à gauche */
+    .main-grid {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .grid-row {
+      display: grid;
+      grid-template-columns: 80px repeat(7, minmax(0,1fr));
+      gap: 8px;
+      flex: 1;
+    }
+    .row-label {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      text-align: right;
+      line-height: 1.3;
+    }
+    .row-icon { font-size: 18px; }
+
     .section-card {
-      border-radius: 10px;
-      border: 1.5px solid #e8e6e0;
-      background: #fff;
-      padding: 8px 4px;
+      border-radius: 12px;
+      border: 2px solid #e8e6e0;
+      background: #fafafa;
+      padding: 10px 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: border-color 0.15s, transform 0.1s;
-      min-height: 70px;
+      min-height: 80px;
       gap: 4px;
     }
     .section-card:hover { border-color: #999; transform: scale(1.02); }
-    .section-label {
-      font-size: 11px;
-      color: #bbb;
+    .section-card.empty { background: #fafafa; }
+
+    .meteo-icon { font-size: 30px; line-height: 1; }
+    .card-text {
+      font-size: 12px;
       text-align: center;
       line-height: 1.4;
+      font-weight: 700;
+      word-break: break-word;
+      padding: 0 4px;
+    }
+    .card-text.meteo-color { color: #8a6200; }
+    .card-text.mot-color { color: #3C3489; }
+    .card-text.victoire-color { color: #085041; }
+    .card-placeholder {
+      font-size: 11px;
+      color: #ccc;
+      text-align: center;
       font-weight: 500;
     }
-    .meteo-icon { font-size: 26px; line-height: 1; }
-    .mot-text {
-      font-size: 11px;
-      color: #3C3489;
-      text-align: center;
-      line-height: 1.4;
-      font-weight: 600;
-      word-break: break-word;
-      padding: 0 4px;
-    }
-    .victoire-text {
-      font-size: 11px;
-      color: #085041;
-      text-align: center;
-      line-height: 1.4;
-      font-weight: 600;
-      word-break: break-word;
-      padding: 0 4px;
-    }
+
     .legend {
       display: flex;
-      gap: 16px;
+      gap: 20px;
       flex-wrap: wrap;
-      margin-bottom: 1rem;
+      margin-top: 0.75rem;
+      margin-bottom: 0.5rem;
     }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #666; font-weight: 500; }
-    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: 14px; color: #666; font-weight: 500; }
+    .legend-dot { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+    .footer { text-align: center; font-size: 12px; color: #ccc; margin-top: 4px; }
+
+    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -126,17 +161,17 @@
       border-radius: 20px 20px 0 0;
       padding: 1.25rem 1.5rem 2.5rem;
       width: 100%;
-      max-width: 460px;
+      max-width: 420px;
     }
     @media (min-width: 500px) { .modal { border-radius: 16px; padding: 1.75rem; } }
     .modal-handle { width: 44px; height: 5px; background: #e0ddd6; border-radius: 3px; margin: 0 auto 1.25rem; }
     @media (min-width: 500px) { .modal-handle { display: none; } }
     .modal-title { font-size: 18px; font-weight: 700; color: #2c2c2a; margin-bottom: 1.25rem; }
-    .modal-section { margin-bottom: 1.1rem; }
-    .modal-section label { font-size: 13px; color: #555; display: block; margin-bottom: 8px; font-weight: 600; }
-    .meteo-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* Météo modal */
+    .meteo-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
     .meteo-opt {
-      font-size: 32px;
+      font-size: 34px;
       cursor: pointer;
       padding: 6px;
       border-radius: 12px;
@@ -146,102 +181,114 @@
     }
     .meteo-opt:hover { border-color: #d3d1c7; }
     .meteo-opt.selected { border-color: #1D9E75; background: #E1F5EE; }
+
+    /* Texte modal */
     .modal input[type=text] {
       width: 100%;
       font-size: 16px;
       border: 1.5px solid #d3d1c7;
       border-radius: 10px;
-      padding: 12px 14px;
+      padding: 14px;
       background: #fff;
       color: #2c2c2a;
       font-family: inherit;
       -webkit-appearance: none;
+      margin-top: 4px;
     }
     .modal input[type=text]:focus { outline: none; border-color: #1D9E75; }
     .modal-actions { display: flex; gap: 8px; margin-top: 1.5rem; }
-    .btn-save {
-      flex: 1;
-      background: #1D9E75;
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-    }
+    .btn-save { flex: 1; background: #1D9E75; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; }
     .btn-save:hover { background: #0F6E56; }
-    .btn-cancel {
-      background: none;
-      border: 1.5px solid #d3d1c7;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 15px;
-      color: #666;
-      cursor: pointer;
-      font-family: inherit;
-    }
+    .btn-cancel { background: none; border: 1.5px solid #d3d1c7; border-radius: 12px; padding: 14px 16px; font-size: 15px; color: #666; cursor: pointer; font-family: inherit; }
     .btn-cancel:hover { background: #f1efe8; }
-    .btn-delete {
-      background: none;
-      border: 1.5px solid #F09595;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 14px;
-      color: #A32D2D;
-      cursor: pointer;
-      font-family: inherit;
-    }
+    .btn-delete { background: none; border: 1.5px solid #F09595; border-radius: 12px; padding: 14px 16px; font-size: 14px; color: #A32D2D; cursor: pointer; font-family: inherit; }
     .btn-delete:hover { background: #FCEBEB; }
-    .footer { text-align: center; font-size: 12px; color: #ccc; margin-top: 1rem; }
   </style>
 </head>
 <body>
 <div class="carnet">
   <h1>Mon carnet de météos</h1>
-  <p class="subtitle">Ma météo · mon mot du jour · ma petite victoire</p>
+  <p class="subtitle">Une entrée par jour · trois regards sur ma journée</p>
+
   <div class="week-nav">
     <button class="nav-btn" onclick="changeWeek(-1)">← avant</button>
     <span class="week-label" id="weekLabel"></span>
     <button class="nav-btn" onclick="changeWeek(1)">après →</button>
   </div>
-  <div class="days-grid" id="daysGrid"></div>
+
+  <!-- Labels des jours -->
+  <div class="row-labels" id="rowLabels">
+    <div class="row-label-empty"></div>
+  </div>
+
+  <!-- 3 lignes -->
+  <div class="main-grid">
+    <div class="grid-row" id="rowMeteo">
+      <div class="row-label"><span class="row-icon">🌤️</span> Météo<br>du jour</div>
+    </div>
+    <div class="grid-row" id="rowMot">
+      <div class="row-label"><span class="row-icon">💬</span> Un mot</div>
+    </div>
+    <div class="grid-row" id="rowVictoire">
+      <div class="row-label"><span class="row-icon">⭐</span> Petite<br>victoire</div>
+    </div>
+  </div>
+
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div>Météo du matin</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Mot du jour</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5"></div>Petite victoire</div>
+    <div class="legend-item"><span style="font-size:18px">🌤️</span> Météo du jour</div>
+    <div class="legend-item"><span style="font-size:18px">💬</span> Un mot</div>
+    <div class="legend-item"><span style="font-size:18px">⭐</span> Petite victoire</div>
   </div>
   <p class="footer">patriciapsy.fr</p>
 </div>
 
-<div class="modal-overlay" id="modalOverlay">
+<!-- Modal météo -->
+<div class="modal-overlay" id="modalMeteo">
   <div class="modal">
     <div class="modal-handle"></div>
-    <p class="modal-title" id="modalTitle">Lundi</p>
-    <div class="modal-section">
-      <label>Ma météo du matin</label>
-      <div class="meteo-row">
-        <span class="meteo-opt" data-val="☀️" onclick="selectMeteo(this)">☀️</span>
-        <span class="meteo-opt" data-val="⛅" onclick="selectMeteo(this)">⛅</span>
-        <span class="meteo-opt" data-val="☁️" onclick="selectMeteo(this)">☁️</span>
-        <span class="meteo-opt" data-val="🌧️" onclick="selectMeteo(this)">🌧️</span>
-        <span class="meteo-opt" data-val="⛈️" onclick="selectMeteo(this)">⛈️</span>
-        <span class="meteo-opt" data-val="🌈" onclick="selectMeteo(this)">🌈</span>
-      </div>
-    </div>
-    <div class="modal-section">
-      <label>Un mot de ma journée</label>
-      <input type="text" id="motInput" placeholder="ex : fatiguée, soulagée, contente..." maxlength="40">
-    </div>
-    <div class="modal-section">
-      <label>Ma petite victoire du jour</label>
-      <input type="text" id="victoireInput" placeholder="même toute petite..." maxlength="50">
+    <p class="modal-title" id="modalMeteoTitle">🌤️ Météo du jour</p>
+    <div class="meteo-row">
+      <span class="meteo-opt" data-val="☀️" onclick="selectMeteo(this)">☀️</span>
+      <span class="meteo-opt" data-val="⛅" onclick="selectMeteo(this)">⛅</span>
+      <span class="meteo-opt" data-val="☁️" onclick="selectMeteo(this)">☁️</span>
+      <span class="meteo-opt" data-val="🌧️" onclick="selectMeteo(this)">🌧️</span>
+      <span class="meteo-opt" data-val="⛈️" onclick="selectMeteo(this)">⛈️</span>
+      <span class="meteo-opt" data-val="🌈" onclick="selectMeteo(this)">🌈</span>
+      <span class="meteo-opt" data-val="🌫️" onclick="selectMeteo(this)">🌫️</span>
+      <span class="meteo-opt" data-val="🌪️" onclick="selectMeteo(this)">🌪️</span>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Annuler</button>
-      <button class="btn-delete" onclick="deleteEntry()">Effacer</button>
-      <button class="btn-save" onclick="saveEntry()">Enregistrer</button>
+      <button class="btn-cancel" onclick="closeModal('modalMeteo')">Annuler</button>
+      <button class="btn-delete" onclick="deleteField('meteo')">Effacer</button>
+      <button class="btn-save" onclick="saveMeteo()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal mot -->
+<div class="modal-overlay" id="modalMot">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <p class="modal-title" id="modalMotTitle">💬 Un mot de ma journée</p>
+    <input type="text" id="motInput" placeholder="ex : fatiguée, soulagée, contente..." maxlength="40">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalMot')">Annuler</button>
+      <button class="btn-delete" onclick="deleteField('mot')">Effacer</button>
+      <button class="btn-save" onclick="saveMot()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal victoire -->
+<div class="modal-overlay" id="modalVictoire">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <p class="modal-title" id="modalVictoireTitle">⭐ Ma petite victoire</p>
+    <input type="text" id="victoireInput" placeholder="même toute petite..." maxlength="50">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalVictoire')">Annuler</button>
+      <button class="btn-delete" onclick="deleteField('victoire')">Effacer</button>
+      <button class="btn-save" onclick="saveVictoire()">Enregistrer</button>
     </div>
   </div>
 </div>
@@ -252,50 +299,150 @@ const FULL=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 const MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 let data={};
 try{data=JSON.parse(localStorage.getItem('carnet-meteos')||'{}');}catch(e){}
-let weekOffset=0,editingKey=null,selectedMeteo='';
+let weekOffset=0, editingKey=null, selectedMeteo='';
+
 function save(){try{localStorage.setItem('carnet-meteos',JSON.stringify(data));}catch(e){}}
-function getMonday(d){const date=new Date(d);const day=date.getDay();const diff=date.getDate()-day+(day===0?-6:1);date.setDate(diff);date.setHours(0,0,0,0);return date;}
+
+function getMonday(d){
+  const date=new Date(d);const day=date.getDay();
+  const diff=date.getDate()-day+(day===0?-6:1);
+  date.setDate(diff);date.setHours(0,0,0,0);return date;
+}
 function dateKey(d){return d.toISOString().slice(0,10);}
 function isToday(d){const t=new Date();return d.getDate()===t.getDate()&&d.getMonth()===t.getMonth()&&d.getFullYear()===t.getFullYear();}
-function getWeekDays(){const monday=getMonday(new Date());monday.setDate(monday.getDate()+weekOffset*7);return Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return d;});}
+function getWeekDays(){
+  const monday=getMonday(new Date());
+  monday.setDate(monday.getDate()+weekOffset*7);
+  return Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return d;});
+}
+
 function render(){
   const days=getWeekDays();
   const m=days[0],s=days[6];
-  document.getElementById('weekLabel').textContent=m.getDate()+' '+MONTHS[m.getMonth()]+' – '+s.getDate()+' '+MONTHS[s.getMonth()]+' '+s.getFullYear();
-  const grid=document.getElementById('daysGrid');
-  grid.innerHTML='';
+  document.getElementById('weekLabel').textContent=
+    m.getDate()+' '+MONTHS[m.getMonth()]+' – '+s.getDate()+' '+MONTHS[s.getMonth()]+' '+s.getFullYear();
+
+  // Labels jours
+  const labelsRow=document.getElementById('rowLabels');
+  labelsRow.innerHTML='<div></div>';
   days.forEach((d,i)=>{
-    const key=dateKey(d);const e=data[key]||{};
-    const col=document.createElement('div');col.className='day-col';
-    const hdr=document.createElement('div');hdr.className='day-header'+(isToday(d)?' today':'');hdr.textContent=DAYS[i];col.appendChild(hdr);
-    [{bg:e.meteo?'#FFF0C8':'',border:e.meteo?'#FAC775':'',content:e.meteo?`<span class="meteo-icon">${e.meteo}</span>`:`<span class="section-label">météo</span>`},
-     {bg:e.mot?'#EEEDFE':'',border:e.mot?'#AFA9EC':'',content:e.mot?`<span class="mot-text">${e.mot}</span>`:`<span class="section-label">mot du jour</span>`},
-     {bg:e.victoire?'#D8F5EC':'',border:e.victoire?'#5DCAA5':'',content:e.victoire?`<span class="victoire-text">${e.victoire}</span>`:`<span class="section-label">victoire</span>`}
-    ].forEach(c=>{
-      const card=document.createElement('div');
-      card.className='section-card';
-      card.style.background=c.bg;
-      if(c.border) card.style.borderColor=c.border;
-      card.innerHTML=c.content;
-      card.onclick=()=>openModal(key,d,i);
-      col.appendChild(card);
-    });
-    grid.appendChild(col);
+    const hdr=document.createElement('div');
+    hdr.className='day-header'+(isToday(d)?' today':'');
+    hdr.textContent=DAYS[i];
+    labelsRow.appendChild(hdr);
+  });
+
+  // Ligne météo
+  const rowMeteo=document.getElementById('rowMeteo');
+  rowMeteo.innerHTML='<div class="row-label"><span class="row-icon">🌤️</span> Météo<br>du jour</div>';
+  days.forEach((d,i)=>{
+    const key=dateKey(d); const e=data[key]||{};
+    const card=document.createElement('div');
+    card.className='section-card';
+    card.style.background=e.meteo?'#FFF8E1':'#fafafa';
+    card.style.borderColor=e.meteo?'#FAC775':'#e8e6e0';
+    card.innerHTML=e.meteo
+      ?`<span class="meteo-icon">${e.meteo}</span>`
+      :`<span class="card-placeholder">+</span>`;
+    card.onclick=()=>openMeteo(key,d,i);
+    rowMeteo.appendChild(card);
+  });
+
+  // Ligne mot
+  const rowMot=document.getElementById('rowMot');
+  rowMot.innerHTML='<div class="row-label"><span class="row-icon">💬</span> Un mot</div>';
+  days.forEach((d,i)=>{
+    const key=dateKey(d); const e=data[key]||{};
+    const card=document.createElement('div');
+    card.className='section-card';
+    card.style.background=e.mot?'#EEEDFE':'#fafafa';
+    card.style.borderColor=e.mot?'#AFA9EC':'#e8e6e0';
+    card.innerHTML=e.mot
+      ?`<span class="card-text mot-color">${e.mot}</span>`
+      :`<span class="card-placeholder">+</span>`;
+    card.onclick=()=>openMot(key,d,i);
+    rowMot.appendChild(card);
+  });
+
+  // Ligne victoire
+  const rowVictoire=document.getElementById('rowVictoire');
+  rowVictoire.innerHTML='<div class="row-label"><span class="row-icon">⭐</span> Petite<br>victoire</div>';
+  days.forEach((d,i)=>{
+    const key=dateKey(d); const e=data[key]||{};
+    const card=document.createElement('div');
+    card.className='section-card';
+    card.style.background=e.victoire?'#D8F5EC':'#fafafa';
+    card.style.borderColor=e.victoire?'#5DCAA5':'#e8e6e0';
+    card.innerHTML=e.victoire
+      ?`<span class="card-text victoire-color">${e.victoire}</span>`
+      :`<span class="card-placeholder">+</span>`;
+    card.onclick=()=>openVictoire(key,d,i);
+    rowVictoire.appendChild(card);
   });
 }
-function openModal(key,d,dayIdx){
-  editingKey=key;selectedMeteo=(data[key]||{}).meteo||'';
-  document.getElementById('modalTitle').textContent=FULL[dayIdx]+' '+d.getDate()+' '+MONTHS[d.getMonth()];
-  document.getElementById('motInput').value=(data[key]||{}).mot||'';
-  document.getElementById('victoireInput').value=(data[key]||{}).victoire||'';
+
+function openMeteo(key,d,i){
+  editingKey=key; selectedMeteo=(data[key]||{}).meteo||'';
+  document.getElementById('modalMeteoTitle').textContent='🌤️ '+FULL[i]+' '+d.getDate()+' '+MONTHS[d.getMonth()];
   document.querySelectorAll('.meteo-opt').forEach(el=>el.classList.toggle('selected',el.dataset.val===selectedMeteo));
-  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('modalMeteo').classList.add('open');
 }
-function closeModal(){document.getElementById('modalOverlay').classList.remove('open');editingKey=null;}
-function selectMeteo(el){selectedMeteo=el.dataset.val;document.querySelectorAll('.meteo-opt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');}
-function saveEntry(){if(!editingKey)return;data[editingKey]={meteo:selectedMeteo,mot:document.getElementById('motInput').value.trim(),victoire:document.getElementById('victoireInput').value.trim()};save();closeModal();render();}
-function deleteEntry(){if(!editingKey)return;delete data[editingKey];save();closeModal();render();}
-document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function openMot(key,d,i){
+  editingKey=key;
+  document.getElementById('modalMotTitle').textContent='💬 '+FULL[i]+' '+d.getDate()+' '+MONTHS[d.getMonth()];
+  document.getElementById('motInput').value=(data[key]||{}).mot||'';
+  document.getElementById('modalMot').classList.add('open');
+  setTimeout(()=>document.getElementById('motInput').focus(),300);
+}
+function openVictoire(key,d,i){
+  editingKey=key;
+  document.getElementById('modalVictoireTitle').textContent='⭐ '+FULL[i]+' '+d.getDate()+' '+MONTHS[d.getMonth()];
+  document.getElementById('victoireInput').value=(data[key]||{}).victoire||'';
+  document.getElementById('modalVictoire').classList.add('open');
+  setTimeout(()=>document.getElementById('victoireInput').focus(),300);
+}
+
+function closeModal(id){document.getElementById(id).classList.remove('open');editingKey=null;}
+
+function selectMeteo(el){
+  selectedMeteo=el.dataset.val;
+  document.querySelectorAll('.meteo-opt').forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function saveMeteo(){
+  if(!editingKey)return;
+  if(!data[editingKey])data[editingKey]={};
+  data[editingKey].meteo=selectedMeteo;
+  save();closeModal('modalMeteo');render();
+}
+function saveMot(){
+  if(!editingKey)return;
+  if(!data[editingKey])data[editingKey]={};
+  data[editingKey].mot=document.getElementById('motInput').value.trim();
+  save();closeModal('modalMot');render();
+}
+function saveVictoire(){
+  if(!editingKey)return;
+  if(!data[editingKey])data[editingKey]={};
+  data[editingKey].victoire=document.getElementById('victoireInput').value.trim();
+  save();closeModal('modalVictoire');render();
+}
+
+function deleteField(field){
+  if(!editingKey)return;
+  if(data[editingKey])delete data[editingKey][field];
+  save();
+  if(field==='meteo')closeModal('modalMeteo');
+  else if(field==='mot')closeModal('modalMot');
+  else closeModal('modalVictoire');
+  render();
+}
+
+['modalMeteo','modalMot','modalVictoire'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+
 function changeWeek(dir){weekOffset+=dir;render();}
 render();
 </script>
